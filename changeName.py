@@ -1,4 +1,5 @@
 import os
+import re
 import datefinder # using akoumjian's datefinder library on github
                   # https://datefinder.readthedocs.io/en/latest/
 import datetime as d
@@ -19,7 +20,7 @@ for i in range(len(files)):
     haveNumbers = ''.join(y for y in filename if y.isdigit())
 
     # if date is only month and day or has too many numbers to be a date or if file has no numbers
-    if len(haveNumbers) <= 0 or int(haveNumbers) <= 1231 or len(haveNumbers) > 8:
+    if len(haveNumbers) <= 0 or int(haveNumbers) <= 1231 or len(haveNumbers) > 9:
         os.rename(myFolder + "/" + filename + file_extension, manualFolder + "/" + filename + file_extension)
         continue
 
@@ -46,14 +47,14 @@ for i in range(len(files)):
     yearFound = dateTooLong[0:4]  # type: str
 
     # get string from filename that the datetime object used and delete leading/trailing spaces
-    # if string has more than 2 spaces or date is exactly the same as previous entry
+    # if string has more than 2 spaces and no letters, or date is exactly the same as previous entry
     # put it in the folder for manual renaming
     firstIndex = int(x[1][0])  # type: int
     secondIndex = int(x[1][1])  # type: int
     dateFound = filename[firstIndex:secondIndex]  # type: str
     dateFound = dateFound.strip()
     hasSpaces = ''.join(y for y in dateFound if y.isspace())
-    if int(len(hasSpaces)) >= 2:
+    if int(len(hasSpaces)) >= 2 and re.search('[a-zA-Z]+', dateFound) == None:
         os.rename(myFolder + "/" + filename + file_extension, manualFolder + "/" + filename + file_extension)
         continue
 
