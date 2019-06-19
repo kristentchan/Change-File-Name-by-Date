@@ -25,7 +25,7 @@ sameDateCheck = datefinder.find_dates("", index=True)
 for i in range(len(files)):
     filename, file_extension = os.path.splitext(files[i])
     haveNumbers = ''.join(y for y in filename if y.isdigit())
-    print filename + file_extension
+    print "Working on:" filename + file_extension
 
     # if date is only month and day or has too many numbers to be a date or if file has no numbers
     if len(haveNumbers) <= 0 or int(haveNumbers) <= 1231 or len(haveNumbers) > 9:
