@@ -4,7 +4,6 @@
 # Date: 6/19/2019
 # =================================
 
-
 import os
 import re
 import datefinder # using akoumjian's datefinder library on github
@@ -22,15 +21,19 @@ files = os.listdir(myFolder)
 total_renamed = 0  # type: int
 sameDateCheck = datefinder.find_dates("", index=True)
 
+def fix_manually():
+    os.rename(myFolder + "/" + filename + file_extension, manualFolder + "/" + filename + file_extension)
+    print "Moving file to " + manualFolder + "\n"
+
 for i in range(len(files)):
     filename, file_extension = os.path.splitext(files[i])
     haveNumbers = ''.join(y for y in filename if y.isdigit())
-    print "Working on:" filename + file_extension
+    print "Working on:" + filename + file_extension
 
     # if date is only month and day or has too many numbers to be a date or if file has no numbers
     if len(haveNumbers) <= 0 or int(haveNumbers) <= 1231 or len(haveNumbers) > 9:
-        print "filename has only month/day or too many/little numbers or no numbers\n"
-        os.rename(myFolder + "/" + filename + file_extension, manualFolder + "/" + filename + file_extension)
+        print "filename has only month/day or too many/little numbers or no numbers"
+        fix_manually()
         continue
 
     #get generator object from datefinder and extract datetime and indeces
@@ -43,9 +46,9 @@ for i in range(len(files)):
     try:
       x
     except NameError:
-      print "datefinder could not find a date\n"
+      print "datefinder could not find a date"
       # put it in the folder for manual renaming if not
-      os.rename(myFolder + "/" + filename + file_extension, manualFolder + "/" + filename + file_extension)
+      fix_manually()
       continue
 
     # get date from datetime object without timestamp
@@ -62,9 +65,9 @@ for i in range(len(files)):
     dateFound = dateFound.strip()
     hasSpaces = ''.join(y for y in dateFound if y.isspace())
     if int(len(hasSpaces)) >= 2 and re.search('[a-zA-Z]+', dateFound) == None or x == sameDateCheck:
-        print "date has spaces and no letters or date is the same as the last file\n"
+        print "date has spaces and no letters or date is the same as the last file"
         sameDateCheck = x
-        os.rename(myFolder + "/" + filename + file_extension, manualFolder + "/" + filename + file_extension)
+        fix_manually()
         continue
 
     sameDateCheck = x
@@ -80,6 +83,6 @@ for i in range(len(files)):
         os.rename(files[i], finalString + file_extension)
     else:
         # otherwise, put it in the folder for manual renaming
-        print "just no good\n"
-        os.rename(myFolder + "/" + filename + file_extension, manualFolder + "/" + filename + file_extension)
+        print "just no good"
+        fix_manually()
 print total_renamed
