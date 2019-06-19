@@ -1,5 +1,5 @@
 # Change-File-Name-by-Date
-This code takes a folder with files of any naming scheme, uses datefinder (@akoumjian) to extract dates, deduces whether or not that date # is viable, and renames the file with the correct date. It also allows you to put files that were not changed into a different folder so you can manually change them.
+This code takes a folder with files of any naming scheme, uses datefinder (@akoumjian/datefinder) to extract dates, deduces whether or not that date # is viable, and renames the file with the correct date. It also allows you to put files that were not changed into a different folder so you can manually change them.
 
 This would not be good for a file that has a ton of numbers, as datefinder can't extract dates from a file name like:
      LN_174365_CB_A4248_OE_11xx_15xx_HLKn_wsw001_06032019_v2
